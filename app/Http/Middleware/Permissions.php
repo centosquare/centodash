@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Spatie\Permission\Exceptions\UnauthorizedException;
+use Illuminate\Support\Facades\Gate;
 
 class Permissions
 {
@@ -42,6 +43,12 @@ class Permissions
      */
     public function handle($request, Closure $next)
     {
+        Gate::before(function ($user, $ability) {
+            if ($user->hasRole('admin')) {
+                return true;
+            }
+        });
+
         $permission = $request->route()->getName();
 
         if ($this->match($request->route()) && auth()->user()->cannot($permission)) {
