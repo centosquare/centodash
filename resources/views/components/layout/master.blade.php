@@ -29,6 +29,7 @@
     <link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css"/>
     <link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css"/>
     <link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
 
     <!--end::Global Stylesheets Bundle-->
     @livewireStyles
@@ -5153,6 +5154,8 @@
 <script src="assets/js/custom/utilities/modals/upgrade-plan.js"></script>
 <script src="assets/js/custom/utilities/modals/create-app.js"></script>
 <script src="assets/js/custom/utilities/modals/users-search.js"></script>
+<script src="//cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+@yield('scripts')
 <!--end::Custom Javascript-->
 <!--end::Javascript-->
 
