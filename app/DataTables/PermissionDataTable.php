@@ -82,13 +82,23 @@ class PermissionDataTable extends DataTable
      */
     public function getColumns(): array
     {
-        return [
+        $columns = [
             Column::make('id'),
             Column::make('name'),
-            Column::make('guard name'),
-            Column::make('edit'),
-            Column::make('delete'),
+            Column::make('guard name')
         ];
+
+        if(Auth::user()->can('permission.edit'))
+        {
+            $columns = array_merge($columns,[Column::make('edit')]);
+        }
+
+        if(Auth::user()->can('permission.delete'))
+        {
+            $columns = array_merge($columns,[Column::make('delete')]);
+        }
+
+        return $columns;
     }
 
     /**

@@ -87,14 +87,24 @@ class RoleDataTable extends DataTable
      */
     public function getColumns(): array
     {
-        return [
+        $columns = [
             Column::make('id'),
             Column::make('name'),
             Column::make('guard name'),
             Column::make('permissions'),
-            Column::make('edit'),
-            Column::make('delete'),
         ];
+
+        if(Auth::user()->can('role.edit'))
+        {
+            $columns = array_merge($columns,[Column::make('edit')]);
+        }
+
+        if(Auth::user()->can('role.delete'))
+        {
+            $columns = array_merge($columns,[Column::make('delete')]);
+        }
+
+        return $columns;
     }
 
     /**
