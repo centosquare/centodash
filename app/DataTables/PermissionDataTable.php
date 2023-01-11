@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -25,17 +24,8 @@ class PermissionDataTable extends DataTable
             ->addColumn('guard name', function (Permission $permission) {
                 return ''.$permission['guard_name'].'';
             })
-            ->addColumn('edit', function (Permission $permission) {
-                return Auth::user()->can('permission.edit') 
-                ? '<a href="'.route('permission.edit',$permission['id']).'" class="btn btn-icon btn-success btn-sm"><i class="bi bi-pencil fs-4"></i></a>' 
-                : '';
-            })
-            ->addColumn('delete', function (Permission $permission) {
-                return Auth::user()->can('permission.delete') 
-                ? '<a href="'.route('permission.delete',$permission['id']).'" class="btn btn-icon btn-danger btn-sm"><i class="bi bi-trash fs-4"></i></a>' 
-                : '';
-            })
-            ->rawColumns(['edit', 'delete'])
+            ->addColumn('action', 'admin.permissions.datatables_actions')
+            ->rawColumns(['edit', 'delete','action'])
             ->setRowId('id');
     }
     
@@ -65,14 +55,9 @@ class PermissionDataTable extends DataTable
             //->dom('Bfrtip')
             ->orderBy(1)
             ->selectStyleSingle()
-            ->buttons([
-                Button::make('excel'),
-                Button::make('csv'),
-                Button::make('pdf'),
-                Button::make('print'),
-                Button::make('reset'),
-                Button::make('reload')
-            ]);
+            ->parameters(
+                config('datatables-buttons.parameters')
+            );
     }
 
     /**
@@ -85,17 +70,12 @@ class PermissionDataTable extends DataTable
         $columns = [
             Column::make('id'),
             Column::make('name'),
-            Column::make('guard name')
+            Column::make('guard name'),
         ];
 
-        if(Auth::user()->can('permission.edit'))
+        if(Auth::user()->can('permission.edit') || Auth::user()->can('permission.delete'))
         {
-            $columns = array_merge($columns,[Column::make('edit')]);
-        }
-
-        if(Auth::user()->can('permission.delete'))
-        {
-            $columns = array_merge($columns,[Column::make('delete')]);
+            $columns = array_merge($columns,[Column::make('action')]);
         }
 
         return $columns;

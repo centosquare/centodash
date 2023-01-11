@@ -31,17 +31,8 @@ class UserDataTable extends DataTable
             ->addColumn('avatar', function (User $user) {
                 return '<img src="' . asset($user["avatar"]). '" class="image-input-wrapper rounded-circle w-50px h-50px" alt="alt text">';
             })
-            ->addColumn('edit', function (User $user) {
-                return Auth::user()->can('user.edit') 
-                ? '<a href="'.route('user.edit',$user['id']).'" class="btn btn-icon btn-success btn-sm"><i class="bi bi-pencil fs-4"></i></a>' 
-                : '';
-            })
-            ->addColumn('delete', function (User $user) {
-                return Auth::user()->can('user.delete') 
-                ? '<a href="'.route('user.delete',$user['id']).'" class="btn btn-icon btn-danger btn-sm"><i class="bi bi-trash fs-4"></i></a>' 
-                : '';
-            })
-            ->rawColumns(['avatar','edit','delete'])
+            ->addColumn('action', 'admin.users.datatables_actions')
+            ->rawColumns(['avatar','edit','delete','action'])
             ->setRowId('id');
     }
 
@@ -70,14 +61,9 @@ class UserDataTable extends DataTable
             //->dom('Bfrtip')
             ->orderBy(1)
             ->selectStyleSingle()
-            ->buttons([
-                Button::make('excel'),
-                Button::make('csv'),
-                Button::make('pdf'),
-                Button::make('print'),
-                Button::make('reset'),
-                Button::make('reload')
-            ]);
+            ->parameters(
+                config('datatables-buttons.parameters')
+            );;
     }
 
     /**
@@ -95,14 +81,9 @@ class UserDataTable extends DataTable
             Column::make('roles'),
         ];
 
-        if(Auth::user()->can('user.edit'))
+        if(Auth::user()->can('user.edit') || Auth::user()->can('user.delete'))
         {
-            $columns = array_merge($columns,[Column::make('edit')]);
-        }
-
-        if(Auth::user()->can('user.delete'))
-        {
-            $columns = array_merge($columns,[Column::make('delete')]);
+            $columns = array_merge($columns,[Column::make('action')]);
         }
 
         return $columns;

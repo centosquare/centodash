@@ -28,17 +28,8 @@ class RoleDataTable extends DataTable
             ->addColumn('permissions', function (Role $role) {
                 return count($role->permissions);
             })
-            ->addColumn('edit', function (Role $role) {
-                return Auth::user()->can('role.edit') 
-                ? '<a href="'.route('role.edit',$role['id']).'" class="btn btn-icon btn-success btn-sm"><i class="bi bi-pencil fs-4"></i></a>' 
-                : '';
-            })
-            ->addColumn('delete', function (Role $role) {
-                return Auth::user()->can('role.delete') 
-                ? '<a href="'.route('role.delete',$role['id']).'" class="btn btn-icon btn-danger btn-sm"><i class="bi bi-trash fs-4"></i></a>' 
-                : '';
-            })
-            ->rawColumns(['edit', 'delete'])
+            ->addColumn('action', 'admin.roles.datatables_actions')
+            ->rawColumns(['edit', 'delete','action'])
             ->setRowId('id');
     }
 
@@ -70,14 +61,9 @@ class RoleDataTable extends DataTable
             //->dom('Bfrtip')
             ->orderBy(1)
             ->selectStyleSingle()
-            ->buttons([
-                Button::make('excel'),
-                Button::make('csv'),
-                Button::make('pdf'),
-                Button::make('print'),
-                Button::make('reset'),
-                Button::make('reload')
-            ]);
+            ->parameters(
+                config('datatables-buttons.parameters')
+            );;
     }
 
     /**
@@ -94,14 +80,9 @@ class RoleDataTable extends DataTable
             Column::make('permissions'),
         ];
 
-        if(Auth::user()->can('role.edit'))
+        if(Auth::user()->can('role.edit') || Auth::user()->can('role.delete'))
         {
-            $columns = array_merge($columns,[Column::make('edit')]);
-        }
-
-        if(Auth::user()->can('role.delete'))
-        {
-            $columns = array_merge($columns,[Column::make('delete')]);
+            $columns = array_merge($columns,[Column::make('action')]);
         }
 
         return $columns;
