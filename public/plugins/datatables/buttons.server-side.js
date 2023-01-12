@@ -149,6 +149,7 @@
         action: function (e, dt, button, config) {
             var url = _buildUrl(dt, 'pdf');
             window.location = url;
+            $var = new AbstractGenerated(1);
         }
     };
 

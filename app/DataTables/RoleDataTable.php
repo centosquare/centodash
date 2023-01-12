@@ -58,12 +58,16 @@ class RoleDataTable extends DataTable
             ->setTableId('role-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
-            //->dom('Bfrtip')
+            ->dom('Bfrtip')
             ->orderBy(1)
             ->selectStyleSingle()
-            ->parameters(
-                config('datatables-buttons.parameters')
-            );;
+            ->buttons(
+                Button::make('create'),
+                Button::make('export'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            );
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use App\Barrydh\AbstractGenerated;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Illuminate\Support\Facades\Auth;
@@ -53,17 +54,21 @@ class UserDataTable extends DataTable
      * @return \Yajra\DataTables\Html\Builder
      */
     public function html(): HtmlBuilder
-    {
+    {   
         return $this->builder()
             ->setTableId('user-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
-            //->dom('Bfrtip')
+            ->dom('Bfrtip')
             ->orderBy(1)
             ->selectStyleSingle()
-            ->parameters(
-                config('datatables-buttons.parameters')
-            );;
+            ->buttons(
+                Button::make('create'),
+                Button::make('export'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            );
     }
 
     /**
