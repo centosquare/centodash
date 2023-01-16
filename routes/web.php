@@ -23,7 +23,7 @@ Route::view('/', 'welcome');
 Route::controller(AuthController::class)
     ->prefix('auth')
     ->name('auth.')
-    ->group(function(){
+    ->group(function () {
         Route::get('login',  'loginView')->name('login');
         Route::post('login-user', 'userLogin')->name('login.user');
         Route::get('register',  'registerView')->name('register');
@@ -68,3 +68,34 @@ Route::controller(PermissionController::class)
         Route::get('delete/{permission}', 'destroy')->name('delete');
         Route::get('synchronize', 'synchronize')->name('synchronize');
     });
+
+
+// Route::view('/', 'admin.language.localization');
+
+Route::controller(langController::class)
+    ->prefix('change-language')
+    ->name('change-language.')
+    ->group(function () {
+
+        Route::get('/changeLanguage/{language}', 'languageChanger')->name('language');
+
+        Route::get('/test', 'getFile');
+    });
+
+Route::get('languages', [LanguageTranslationController::class, 'index'])->name('languages');
+
+Route::post('translations/update', [LanguageTranslationController::class, 'transUpdate'])->name('translation.update.json');
+
+Route::post('translations/updateKey', [LanguageTranslationController::class, 'transUpdateKey'])->name('translation.update.json.key');
+
+Route::delete('translations/destroy/{key}', [LanguageTranslationController::class, 'destroy'])->name('translations.destroy');
+
+Route::post('translations/create',  [LanguageTranslationController::class, 'store'])->name('translations.create');
+
+Route::get('add/Language',  [LanguageTranslationController::class, 'createLanguage'])->name('addLanguage');
+
+Route::post('create/Language',  [LanguageTranslationController::class, 'addLanguage'])->name('createLanguage');
+
+Route::get('create/config',  [LanguageTranslationController::class, 'newlyConfig'])->name('newlyConfig');
+
+Route::get('/delete/{language}',  [LanguageTranslationController::class, 'deleteLanguage'])->name('delete');
