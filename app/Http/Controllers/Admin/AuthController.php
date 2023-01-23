@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Http\Requests\User\LoginRequest;
-use App\Http\Requests\User\RegisterUserRequest;
-use App\Models\User;
 use Exception;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\User\LoginRequest;
+use Laravel\Socialite\Facades\Socialite;
+use App\Http\Requests\User\RegisterUserRequest;
 
 class AuthController extends Controller
 {
@@ -93,5 +94,91 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('auth.login');
+    }
+
+    // Google login
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    // Google Callback
+    public function handleGoogleCallback()
+    {
+        try {
+            $google_user = Socialite::driver('google')->user();
+            $user = User::where('google_id', $google_user->getId())->first();
+            if (!$user) {
+                $newUser = User::create([
+                    'name' => $google_user->getName(),
+                    'email' => $google_user->getEmail(),
+                    'avatar' => $google_user->getAvatar(),
+                    'google_id' => $google_user->getId(),
+                ]);
+                Auth::login($newUser);
+                return redirect()->route('user.index');
+            } else {
+                Auth::login($user);
+                return redirect()->route('user.index');
+            }
+        } catch (Exception $e) {
+            return back()->withError($e->getMessage());
+        }
+    }
+
+
+    // Github login
+    public function redirectToGithub()
+    {
+        return Socialite::driver('github')->redirect();
+    }
+
+    //Github callback
+    public function handleGithubCallback()
+    {
+        try {
+            $github_user = Socialite::driver('github')->user();
+            $user = User::where('github_id', $github_user->getId())->first();
+            if (!$user) {
+                $newUser = User::create([
+                    'name' => $github_user->getName(),
+                    'email' => $github_user->getEmail(),
+                    'avatar' => $github_user->getAvatar(),
+                    'github_id' => $github_user->getId(),
+                ]);
+                Auth::login($newUser);
+                return redirect()->route('user.index');
+            } else {
+                Auth::login($user);
+                return redirect()->route('user.index');
+            }
+        } catch (Exception $e) {
+            return back()->withError($e->getMessage());
+        }
+    }
+
+    // Facebook login
+    public function redirectToFacebook()
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
+
+    public function handleFacebookCallback()
+    {
+        $facebook_user = Socialite::driver('facebook')->stateless()->user();
+        $finduser = User::where('facebook_id', $facebook_user->getId())->first();
+
+        if ($finduser) {
+            Auth::login($finduser);
+            return redirect()->route('user.index');
+        } else {
+            $newUser = User::create([
+                'name' => $facebook_user->name,
+                'email' => $facebook_user->email,
+                'facebook_id' => $facebook_user->id,
+            ]);
+            Auth::login($newUser);
+            return redirect()->route('user.index');
+        }
     }
 }

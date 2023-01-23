@@ -51,7 +51,8 @@ class Permissions
 
         $permission = $request->route()->getName();
 
-        if ($this->match($request->route()) && auth()->user()->cannot($permission)) {
+        
+        if ($this->match($request->route()) && auth()->user()->can($permission) && auth()->user()->cannot($permission)) {
             if ($permission == '/') {
                 return redirect(route('/'));
             }

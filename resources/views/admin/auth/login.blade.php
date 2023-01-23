@@ -30,7 +30,7 @@
                     </div>
                     <!--end::Header-->
                     <!--begin::Body-->
-                    <div class="py-20">                       
+                    <div class="py-20">
                         <!--begin::Form-->
                         <form class="form w-100" action={{ route('auth.login.user') }} method="POST">
                             @csrf
@@ -47,10 +47,10 @@
                                     <!--end::Link-->
                                 </div>
                                 @if (Session::has('error'))
-                                <div class="alert alert-danger">
-                                    {{ Session::get('error') }}
-                                </div>
-                            @endif
+                                    <div class="alert alert-danger">
+                                        {{ Session::get('error') }}
+                                    </div>
+                                @endif
                                 <!--begin::Heading-->
                                 <!--begin::Input group=-->
                                 <div class="fv-row mb-8">
@@ -72,9 +72,9 @@
                                             <input class="form-control form-control-lg form-control-solid" type="password"
                                                 placeholder="Password" name="password" autocomplete="off"
                                                 data-kt-translate="sign-in-input-password" />
-                                                @error('password')
-                                                    <div class="error text-danger">{{ $message }}</div>
-                                                @enderror
+                                            @error('password')
+                                                <div class="error text-danger">{{ $message }}</div>
+                                            @enderror
                                             <span
                                                 class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2"
                                                 data-kt-password-meter-control="visibility">
@@ -117,19 +117,22 @@
                                         <div class="text-gray-400 fw-semibold fs-6 me-3 me-md-6"
                                             data-kt-translate="general-or">Or</div>
                                         <!--begin::Symbol-->
-                                        <a href="#" class="symbol symbol-circle symbol-45px w-45px bg-light me-3">
+                                        <a href="{{ route('auth.login.google') }}"
+                                            class="symbol symbol-circle symbol-45px w-45px bg-light me-3">
                                             <img alt="Logo" src="assets/media/svg/brand-logos/google-icon.svg"
                                                 class="p-4" />
                                         </a>
                                         <!--end::Symbol-->
                                         <!--begin::Symbol-->
-                                        <a href="#" class="symbol symbol-circle symbol-45px w-45px bg-light me-3">
+                                        <a href="{{ route('auth.login.facebook') }}"
+                                            class="symbol symbol-circle symbol-45px w-45px bg-light me-3">
                                             <img alt="Logo" src="assets/media/svg/brand-logos/facebook-3.svg"
                                                 class="p-4" />
                                         </a>
                                         <!--end::Symbol-->
                                         <!--begin::Symbol-->
-                                        <a href="#" class="symbol symbol-circle symbol-45px w-45px bg-light">
+                                        <a href="{{ route('auth.login.github') }}"
+                                            class="symbol symbol-circle symbol-45px w-45px bg-light">
                                             <img alt="Logo" src="assets/media/svg/brand-logos/apple-black.svg"
                                                 class="theme-light-show p-4" />
                                             <img alt="Logo" src="assets/media/svg/brand-logos/apple-black-dark.svg"
