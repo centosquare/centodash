@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\PermissionDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Permission\StorePermissionRequest;
 use App\Http\Requests\Permission\UpdatePermissionRequest;
@@ -16,17 +17,11 @@ class PermissionController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Vire
+     * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(PermissionDataTable $permissionDataTable)
     {
-        $permissions = Permission::with('roles')->get();
-
-        return view('admin.permissions.index')
-            ->with(
-                'permissions',
-                $permissions
-            );
+        return $permissionDataTable->render('admin.permissions.index',[$permissionDataTable]);
     }
 
     /**

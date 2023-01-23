@@ -1,14 +1,17 @@
 <?php
 
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
+
 use DB;
 use File;
 use Exception;
 use App\Models\Language;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Artisan;
+use App\Http\Requests\Language\StoreLanguageRequest;
 
 class LanguageTranslationController extends Controller
 {
@@ -17,16 +20,12 @@ class LanguageTranslationController extends Controller
         return view('admin.language.addLanguage');
     }
 
-    public function addLanguage(Request $request)
+    public function addLanguage(StoreLanguageRequest $request)
     {
         try {
             $language = Language::create($request->all());
             if ($language) {
                 $new_lang = Language::all()->pluck('name', 'code')->toArray();
-                $array = [
-                    'config_key' => 'config_value',
-                    'next_key' => 'next_value'
-                ];
                 $fp = fopen(base_path('config/languages.php'), 'w');
                 fwrite($fp, '<?php return ' . var_export($new_lang, true) . ';');
                 Artisan::call('config:clear');
@@ -53,7 +52,7 @@ class LanguageTranslationController extends Controller
                 $columns[++$key] = ['data' => $this->openJSONFile($language->code), 'lang' => $language->code];
             }
         }
-        return view('languages', compact('languages', 'columns', 'columnsCount'));
+        return view('admin.language.languages', compact('languages', 'columns', 'columnsCount'));
     }
 
     public function store(Request $request)
@@ -77,7 +76,7 @@ class LanguageTranslationController extends Controller
                 $this->saveJSONFile($language->code, $data);
             }
         }
-        return response()->json(['success' => $key]);
+        return redirect()->route('languages');
     }
 
     private function openJSONFile($code)
@@ -131,18 +130,24 @@ class LanguageTranslationController extends Controller
             $new = Language::all()->pluck('name', 'code')->toArray();
             $fp = fopen(base_path('config/languages.php'), 'w');
             fwrite($fp, '<?php return ' . var_export($new, true) . ';');
-            Artisan::call('config:clear');
             fclose($fp);
-            return redirect()->route('language');
+            Artisan::call('config:clear');
+            return redirect()->route('languages');
         } catch (Exception $ex) {
             return back()->withError($ex->getMessage());
         }
     }
-
     public function newlyConfig()
     {
         $mArr = Language::all()->pluck('name', 'code')->toArray();
-        $cArr = Config::get('languages');
+        $cArr = Config::get('languages') ?? [];
+
+        if (!$cArr){
+            $fp = fopen(base_path('config/languages.php'), 'w+');
+            fwrite($fp, '<?php return ' . var_export($mArr, true) . ';');
+            fclose($fp);
+        }
+
         Artisan::call('config:clear');
         $new_array = array_diff($cArr, $mArr);
         $old_array = array_diff($mArr, $cArr);
@@ -151,9 +156,9 @@ class LanguageTranslationController extends Controller
                 Language::create(['name' => $value, 'code' => $key]);
             };
             Language::whereIn('name', $old_array)->delete();
-            return Redirect()->route('languages')->with('success', 'Added Successfully');
+            return Redirect()->route('languages')->with('success', 'Sync Successfully');
         } else {
-            return back()->with('fail', 'Nothing Here');
+            return back()->with('error', 'Nothing To Sync');
         }
     }
 }

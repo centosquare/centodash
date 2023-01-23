@@ -296,7 +296,7 @@
                         <!--end:Menu sub-->
                     </div>
                     <!--end:Menu item-->
-                    
+
                     <!--begin:Menu item-->
                     <div class="menu-item pt-5">
                         <!--begin:Menu content-->
@@ -371,7 +371,7 @@
                                     <!--begin:Menu item-->
                                     <div class="menu-item">
                                         <!--begin:Menu link-->
-                                        <a class="menu-link active" href="{{ route('role.index') }}">
+                                        <a class="menu-link" href="{{ route('role.index') }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot"></span>
                                             </span>
@@ -380,7 +380,7 @@
                                         <!--end:Menu link-->
                                     </div>
                                     <!--end:Menu item-->
-                                    
+
                                 </div>
                                 <!--end:Menu sub-->
                             </div>
@@ -393,6 +393,34 @@
                                         <span class="bullet bullet-dot"></span>
                                     </span>
                                     <span class="menu-title">Permissions</span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
+                            <!--end:Menu item-->
+
+
+                             <!--begin:Menu item-->
+                             <div class="menu-item">
+                                <!--begin:Menu link-->
+                                <a class="menu-link" href="{{ route('addLanguage') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Add Language</span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
+                            <!--end:Menu item-->
+
+
+                             <!--begin:Menu item-->
+                             <div class="menu-item">
+                                <!--begin:Menu link-->
+                                <a class="menu-link" href="{{ route('languages') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">All Languages</span>
                                 </a>
                                 <!--end:Menu link-->
                             </div>

@@ -74,7 +74,7 @@ class AuthController extends Controller
                 return back()->withError('Either the email or the password is incorrect');
             }
         } catch (Exception $ex) {
-            return back()->withError('Something went wrong');
+            return back()->withError($ex->getMessage());
         }
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\UserDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
@@ -18,14 +19,9 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(UserDataTable $userDataTable)
     {
-        $users = User::all();
-        return view('admin.users.index')
-            ->with(
-                'users',
-                $users
-            );
+        return $userDataTable->render('admin.users.index',[$userDataTable]);
     }
 
     /**
