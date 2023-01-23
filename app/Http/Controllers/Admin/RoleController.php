@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\RoleDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Role\StoreRoleRequest;
 use App\Http\Requests\Role\UpdateRoleRequest;
@@ -19,16 +20,11 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(RoleDataTable $roleDataTable)
     {
-        $roles = Role::with('permissions')->get();
-        return view('admin.roles.index')
-            ->with(
-                'roles',
-                $roles
-            );
+        return $roleDataTable->render('admin.roles.index',[$roleDataTable]);
     }
-
+    
     /**
      * Show the form for creating a new resource.
      *
