@@ -7,20 +7,13 @@
     </x-slot>
     <x-slot name="content">
         <meta name="csrf-token" content="{{ csrf_token() }}" />
-
-
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css" />
-
         <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css"
             rel="stylesheet" />
-
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
         <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js">
         </script>
-
         <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
             <div class="p-5">
                 @if (Session::has('error'))
@@ -39,9 +32,7 @@
                                     <div class="card mb-5 mb-xl-8" style="user-select: auto;">
                                         <div class="card-body pt-3" style="user-select: auto;">
                                             <div class="container">
-
                                                 <div class='text-center'>
-
                                                     <a href="{{ route('newlyConfig') }}" class="btn btn-info">Sync
                                                         New
                                                         Config</a>
@@ -49,19 +40,16 @@
                                                     <a href="{{ route('addLanguage') }}" class="btn btn-info">Add
                                                         New
                                                         Language</a>
-
                                                 </div>
                                                 <form method="POST" action="{{ route('translations.create') }}">
-
                                                     @csrf
-
                                                     <div class="row my-10">
 
                                                         <div class="col-md-4">
 
                                                             <label>Key:</label>
 
-                                                            <input type="text" name="key" class="form-control"
+                                                            <input type="text" name="key"  class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
                                                                 placeholder="Enter Key...">
 
                                                         </div>
@@ -70,7 +58,7 @@
 
                                                             <label>Value:</label>
 
-                                                            <input type="text" name="value" class="form-control"
+                                                            <input type="text" name="value"  class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
                                                                 placeholder="Enter Value...">
 
                                                         </div>
@@ -78,14 +66,14 @@
                                                         <div class="col-md-4">
 
                                                             <button type="submit"
-                                                                class="btn btn-success my-5 ">Add</button>
+                                                                class="btn btn-success my-7 ">Add</button>
 
                                                         </div>
                                                     </div>
 
                                                 </form>
 
-                                                <table class="table table-hover table-bordered">
+                                                <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer" id="kt_ecommerce_products_table">
                                                     <thead>
                                                         <tr>
                                                             <th class="ps-7">Key</th>
@@ -93,7 +81,7 @@
                                                                 @foreach ($languages as $language)
                                                                     <th>{{ $language->name }}({{ $language->code }})
                                                                         <a href="{{ route('delete', $language->id) }}"
-                                                                            class='bi bi-trash fs-4'> Delete </a>
+                                                                            class='bi bi-trash fs-4 my-7'></a>
                                                                     </th>
                                                                 @endforeach
                                                             @endif
@@ -120,10 +108,10 @@
                                                                         </td>
                                                                     @endfor
                                                                     <td>
-
-                                                                            <a href="{{ route('translations.destroy', $columnKey) }}" class="btn btn-icon btn-danger btn-sm">
-                                                                                <i class="bi bi-trash fs-4"></i>
-                                                                            </a>
+                                                                        <a href="{{ route('translations.destroy', $columnKey) }}"
+                                                                            class="btn btn-icon btn-danger btn-sm">
+                                                                            <i class="bi bi-trash fs-4"></i>
+                                                                        </a>
                                                                     </td>
                                                                 </tr>
                                                             @endforeach
@@ -142,40 +130,25 @@
 
             <script type="text/javascript">
                 $.ajaxSetup({
-
                     headers: {
-
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-
                     }
-
                 });
 
                 $('.translate').editable({
-
                     params: function(params) {
-
                         params.code = $(this).data('code');
-
                         return params;
 
                     }
-
                 });
 
-
                 $('.translate-key').editable({
-
                     validate: function(value) {
-
                         if ($.trim(value) == '') {
-
                             return 'Key is required';
-
                         }
-
                     }
-
                 });
             </script>
     </x-slot>
