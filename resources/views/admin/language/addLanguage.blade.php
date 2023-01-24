@@ -7,7 +7,7 @@
     </x-slot>
     <x-slot name="content">
         <!--begin::Main-->
-        
+
         <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
             <form action="{{ route('createLanguage') }}" method="POST">
                 @csrf
@@ -28,21 +28,39 @@
                                 <!--begin::Label-->
                                 <!--end::Label-->
                                 <div class="row">
-                                    <x-cento-dash-input type="text" name="name" label="Language"
-                                        placeholder="Enter Language" :message="$errors->first('name')" />
-                                    <x-cento-dash-input type="text" name="code" label="Code"
-                                        placeholder="Enter Code" :message="$errors->first('code')" />
+
+                                    <div class="col-lg-12 fv-row fv-plugins-icon-container">
+                                        <label class="col-lg-8 col-form-label required fw-bold fs-6">Language</label>
+                                        <input type="text" name="name" placeholder="Enter Language"
+                                            class="form-control form-control-lg form-control-solid mb-3 mb-lg-0">
+                                        <div class="fv-plugins-message-container invalid-feedback"></div>
+                                    </div>
+
+                                    @error('name')
+                                    <span class="text-danger">{{  $message }} </span>
+                                    @enderror
+
+                                    <div class="col-lg-12 fv-row fv-plugins-icon-container">
+                                        <label class="col-lg-8 col-form-label required fw-bold fs-6">Code</label>
+                                        <input type=text" name="code" placeholder="Enter Code"
+                                            class="form-control form-control-lg form-control-solid mb-3 mb-lg-0">
+                                        <div class="fv-plugins-message-container invalid-feedback"></div>
+                                    </div>
+                                    @error('code')
+                                    <span class="text-danger">{{  $message }} </span>
+                                    @enderror
                                 </div>
+                                <div class="modal-footer gap-2">
+                                    <button type="submit" class="btn btn-success">
+                                        Add Language
+                                    </button>
+                                    <a class="btn btn-light-danger" href={{ route('languages') }}> Cancel </a>
+                                </div>
+                                <!--end::Table container-->
                             </div>
-                            <div class="modal-footer gap-2">
-                                <x-cento-dash-input type="submit" label="Add Lanuage" />
-                                <a class="btn btn-light-danger" href={{ route('languages') }}> Cancel </a>
-                            </div>
-                            <!--end::Table container-->
+                            <!--begin::Body-->
                         </div>
-                        <!--begin::Body-->
                     </div>
-                </div>
             </form>
         </div>
         <!--end:::Main-->
