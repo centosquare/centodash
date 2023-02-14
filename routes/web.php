@@ -53,6 +53,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/file/get-image/{id}', [FileManagerController::class, 'getImage']);
     Route::delete('filemanager/{file}', [FileManagerController::class, 'delete'])->name('filemanager.delete');
 
+    // Route::get('post', [PostController::class, 'index'])->name('post.index');
+    // Route::post('post/upload', [PostController::class, 'upload'])->name('post.upload');
+    // Route::post('post/store', [PostController::class, 'store'])->name('post.store');
+    // Route::delete('post/{post}', [PostController::class, 'destroy'])->name('post.delete');
+    // Route::get('/post/get-image/{id}', [PostController::class, 'getImage']);
+    // Route::get('posts/all/{collection?}', [PostController::class, 'all']);
+    // Route::get('posts/collectionsNames', [PostController::class, 'collectionsNames']);
+
 
     Route::controller(RoleController::class)
         ->prefix('role')
