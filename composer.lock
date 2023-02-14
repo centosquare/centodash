@@ -4,11 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-<<<<<<< HEAD
     "content-hash": "bf33890a70581f666838978b449fd0d9",
-=======
-    "content-hash": "b0699c8d9b3f42c8023a755edd07a267",
->>>>>>> 8f28183bea102c98157c79b2448864a67a8cf9b0
     "packages": [
         {
             "name": "barryvdh/laravel-snappy",
@@ -2724,7 +2720,6 @@
         {
             "name": "myclabs/php-enum",
             "version": "1.8.4",
-<<<<<<< HEAD
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/php-enum.git",
@@ -2788,8 +2783,6 @@
         {
             "name": "nesbot/carbon",
             "version": "2.64.0",
-=======
->>>>>>> 8f28183bea102c98157c79b2448864a67a8cf9b0
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/php-enum.git",
