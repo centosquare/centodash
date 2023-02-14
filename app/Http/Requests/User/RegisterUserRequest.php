@@ -26,7 +26,6 @@ class RegisterUserRequest extends FormRequest
     {
         $this->merge([
             'name' => $this->first_name . ' ' . $this->last_name,
-            'password' => Hash::make($this->password),
         ]);
     }
 

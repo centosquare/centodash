@@ -30,6 +30,8 @@
     <link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css"/>
     <link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css"/>
 
+    @yield('css')
+
     <!--end::Global Stylesheets Bundle-->
     @livewireStyles
 </head>
@@ -5153,6 +5155,7 @@
 <script src="assets/js/custom/utilities/modals/upgrade-plan.js"></script>
 <script src="assets/js/custom/utilities/modals/create-app.js"></script>
 <script src="assets/js/custom/utilities/modals/users-search.js"></script>
+@yield('scripts')
 <!--end::Custom Javascript-->
 <!--end::Javascript-->
 

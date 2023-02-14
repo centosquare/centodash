@@ -41,24 +41,13 @@ Route::controller(AuthController::class)
         Route::get('login/facebook', 'redirectToFacebook')->name('login.facebook');
     });
 
+Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth'])->group(function () {
 
     Route::controller(UserController::class)
         ->prefix('user')
         ->name('user.')
-        ->group(function () {
-            Route::get('index', 'index')->name('index');
-            Route::get('create', 'create')->name('create');
-            Route::post('store', 'store')->name('store');
-            Route::get('edit/{user}', 'edit')->name('edit');
-            Route::post('update/{user}', 'update')->name('update');
-            Route::get('delete/{user}', 'destroy')->name('delete');
-        });
-
-    Route::controller(RoleController::class)
-        ->prefix('role')
-        ->name('role.')
         ->group(function () {
             Route::get('index', 'index')->name('index');
             Route::get('create', 'create')->name('create');
