@@ -1,9 +1,12 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\FileManagerController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UploadController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,7 +35,6 @@ Route::controller(AuthController::class)
     });
 
 Route::middleware('auth')->group(function () {
-
     Route::controller(UserController::class)
         ->prefix('user')
         ->name('user.')
@@ -44,6 +46,13 @@ Route::middleware('auth')->group(function () {
             Route::post('update/{user}', 'update')->name('update');
             Route::get('delete/{user}', 'destroy')->name('delete');
         });
+
+    Route::get('filemanager', [FileManagerController::class, 'index'])->name('file.index');
+    Route::post('filemanager/upload', [FileManagerController::class, 'upload'])->name('file.upload');
+    Route::post('file/store', [FileManagerController::class, 'store'])->name('file.store');
+    Route::get('/file/get-image/{id}', [FileManagerController::class, 'getImage']);
+    Route::delete('filemanager/{file}', [FileManagerController::class, 'delete'])->name('filemanager.delete');
+
 
     Route::controller(RoleController::class)
         ->prefix('role')
